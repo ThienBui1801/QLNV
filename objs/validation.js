@@ -54,6 +54,18 @@ function Validation() {
     return false;
   };
 
+  this.checkSalaryAndTime = function (value, id, mess, min, max) {
+    if (parseInt(value) >= parseInt(min) || parseInt(value) >= parseInt(max)) {
+      getEle(id).innerHTML = "";
+      getEle(id).style.display = "none";
+      return true;
+    }
+
+    getEle(id).innerHTML = mess;
+    getEle(id).style.display = "block";
+    return false;
+  };
+
   this.checkEmail = function (value, id, mess) {
     let email = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
     if (value.match(email)) {

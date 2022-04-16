@@ -4,27 +4,12 @@ const validation = new Validation();
 
 getLocalStorage();
 
-const btnAdd = document.querySelector("#btnThem");
 const btnAddEmployee = document.querySelector("#btnThemNV");
 const btnUpdateEmployee = document.querySelector("#btnCapNhat");
 
 function getEle(id) {
   return document.getElementById(id);
 }
-
-btnAdd.addEventListener("click", () => {
-  getEle("tknv").value = "";
-
-  getEle("tknv").disabled = false;
-
-  getEle("name").value = "";
-  getEle("email").value = "";
-  getEle("password").value = "";
-  getEle("datepicker").value = date;
-  getEle("luongCB").value = "";
-  getEle("chucvu").value = "";
-  getEle("gioLam").value = "";
-});
 
 btnUpdateEmployee.addEventListener("click", () => {
   let employee = getInfo();
@@ -72,7 +57,7 @@ function getInfo() {
 
   isValid &=
     validation.checkEmpty(salary, "tbLuongCB", "Empty. Check, please!") &&
-    validation.checkNumber(
+    validation.checkSalaryAndTime(
       salary,
       "tbLuongCB",
       "Salary invalid",
@@ -82,7 +67,13 @@ function getInfo() {
 
   isValid &=
     validation.checkEmpty(timeWork, "tbGiolam", "Empty. Check, please!") &&
-    validation.checkNumber(timeWork, "tbGiolam", "Time invalid", 80, 200);
+    validation.checkSalaryAndTime(
+      timeWork,
+      "tbGiolam",
+      "Time invalid",
+      80,
+      200
+    );
 
   if (!isValid) return null;
 
@@ -103,16 +94,6 @@ function getInfo() {
 
   return employee1;
 }
-
-btnAddEmployee.addEventListener("click", () => {
-  let employee = getInfo();
-
-  listEmployee.addEmployee(employee);
-
-  createTable(listEmployee.arr);
-
-  setLocalStorage();
-});
 
 function createTable(arr) {
   let content = "";
@@ -138,6 +119,16 @@ function createTable(arr) {
   getEle("tableDanhSach").innerHTML = content;
 }
 
+btnAddEmployee.addEventListener("click", () => {
+  let employee = getInfo();
+
+  listEmployee.addEmployee(employee);
+
+  createTable(listEmployee.arr);
+
+  setLocalStorage();
+});
+
 function deleteEM(account) {
   listEmployee.deleteEmployee(account);
   createTable(listEmployee.arr);
@@ -145,8 +136,8 @@ function deleteEM(account) {
 }
 
 function editEM(account) {
-  getEle("header-title").innerHTML = "Edit";
-  getEle("btnThemNV").style.display = "none";
+  // getEle("header-title").innerHTML = "Edit";
+  // getEle("btnThemNV").style.display = "none";
 
   let employee = listEmployee.editEmployee(account);
 
@@ -166,6 +157,20 @@ function editEM(account) {
 
   console.log(employee);
 }
+
+getEle('btnThem').addEventListener("click", () => {
+  getEle("tknv").value = "";
+
+  getEle("tknv").disabled = false;
+
+  getEle("name").value = "";
+  getEle("email").value = "";
+  getEle("password").value = "";
+  // getEle("datepicker").value = "";
+  getEle("luongCB").value = "";
+  getEle("chucvu").value = "";
+  getEle("gioLam").value = "";
+});
 
 function setLocalStorage() {
   const dataString = JSON.stringify(listEmployee.arr);
